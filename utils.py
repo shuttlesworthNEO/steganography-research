@@ -48,16 +48,18 @@ for x in range(0,10):
 		# end = '#%02x%02x%02x' % (end_rgb[0], end_rgb[1], end_rgb[2])
 
 		#Adding data to the color in range
-		string = '12AF456'
+		string = 'ffffffffffffffffffffffffffffffffffffff'
+		temp = string
 		color = start
 		print color, 'start'
-		c = None
-		for c in string:
+
+		for c in temp:
 			if int(c, 16) + color < end:
 				color = int(c, 16) + color
+				string = string[1:]
 			else:
 				break
 		print hilbert.int_to_Hilbert(color, 3), "rbg"
-
+		print string
 		# temp = unique_colors.sort(key=lambda (r,g,b):hilbert.Hilbert_to_int([r, g, b]))
 		# print unique_colors
