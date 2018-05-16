@@ -1,14 +1,13 @@
-import random
+basehex = raw_input()
+sechex = raw_input()
 
-colours_length = 1000
-colours = []
-for i in range(1, colours_length):
-	colours.append (
-		[
-			random.random(),
-			random.random(),
-			random.random()
-		]
-	)
+basehexin = int(basehex, 16)
+sechexin = int(sechex, 16)
 
-print colours
+
+
+sum = basehexin + sechexin
+
+
+
+print(hex(sum))
