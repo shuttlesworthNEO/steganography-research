@@ -325,7 +325,10 @@ if __name__ == '__main__':
 			break		# print image[151 + y*152, 151 + x*152], image[151 + y*152, 150 + x*152]
 				# angle_counter = 360
 				# plot_pixel()
-			
+	if flag:
+		print "The complete string could not be encrypted."
+		remaining = data[input_counter: len(data)]
+		print "The remaining string is ", remaining	
 
 
 	
