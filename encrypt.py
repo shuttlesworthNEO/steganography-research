@@ -138,6 +138,7 @@ def plot_pixel():
 		x = np.float64(center_x) + x
 		y = np.float64(center_y) + y
 
+
 		error = calculate_error(int(math.ceil(x)), int(math.ceil(y)), original_values)
 		return math.ceil(x), math.ceil(y), error
 	else:
@@ -158,6 +159,7 @@ def max_range(colors):
 	end = 0
 	for i, x in enumerate(colors):
 		if i < len(colors) - 1:
+			# print colors[i+1]
 			if colors[i+1] - colors[i] > difference:
 				start = i
 				end = i + 1
@@ -167,6 +169,7 @@ def max_range(colors):
 
 
 def calculate_error_char(values):
+
 	error_str = ''
 	bits = {
 		0 : '00',
@@ -175,7 +178,10 @@ def calculate_error_char(values):
 	}
 	for k, v in values.iteritems():
 		#Distance being added to the string before angle
-		error_str += bits[values[k]]
+		value = values[k]%16
+		if value == 15:
+			value = -1
+		error_str += bits[value]
 
 	return '{:x}'.format(int(error_str, 2))
 
@@ -208,18 +214,31 @@ if __name__ == '__main__':
 				#Finding a list of unique pixel RGB values
 				unique_colors = np.unique(box.reshape(-1, box.shape[2]), axis=0).tolist()
 				
+				# print int(rgb_to_hex([0, 0, 1]), 16), 'ger'
+
 				#Convert RGB values to int for sorting
-				unique_colors = [int(rgb_to_hex(t), 16) for t in unique_colors]
-				
+				for i, t in enumerate(unique_colors):
+					unique_colors[i] = int(rgb_to_hex(t), 16)
+					if unique_colors[i] == 24160:
+						print t				
+
+
+
 				#Sort the values for finding maximum range
 				unique_colors.sort()
 
 				#Finding the colors with maximum range between them
 				start, end, count = max_range(unique_colors)
-
+				temp = start
 				# Converting colour back to hex
-				start = '{:x}'.format(start)
-				end = '{:x}'.format(end)
+				start = '{:06x}'.format(start)
+				end = '{:06x}'.format(end)
+
+
+
+				# if len(start) < 6:
+				# 	print hex_to_rgb(start)
+				# 	print start, x, y, temp
 
 				
 				#Calculating index for hiding start and end color
@@ -241,10 +260,10 @@ if __name__ == '__main__':
 					error_char = calculate_error_char(error)
 					
 					#Initialising the colour to start + 1
-					color = '{:x}'.format(int(start, 16) + 1)
+					color = '{:06x}'.format(int(start, 16) + 1)
 
 					#Intitialising the final colour to end - 1
-					color_end = '{:x}'.format(int(end, 16) - 1)
+					color_end = '{:06x}'.format(int(end, 16) - 1)
 
 
 					if input_counter == len(data):
@@ -328,7 +347,7 @@ if __name__ == '__main__':
 	if flag:
 		print "The complete string could not be encrypted."
 		remaining = data[input_counter: len(data)]
-		print "The remaining string is ", remaining	
+		print "The remaining string is ", remaining, input_counter
 
 
 	
